@@ -13,7 +13,7 @@ function Adlogin() {
         const admin = { email, password };
 
         try {
-        const response = await axios.post("http://localhost:8000/api/admin/log", admin);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/admin/log", admin);
         if (response.data.msg === "Success") {
             localStorage.setItem("admin", "admin@gmail.com");
             setEmail("");
