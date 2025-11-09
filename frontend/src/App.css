@@ -1,0 +1,214 @@
+.sidebar {
+    transform: translateX(0);
+    transition: transform 0.35s ease-in-out;
+    }
+
+    .sidebar.open {
+    transform: translateX(0) !important;
+    }
+
+    @media (max-width: 991px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    }
+
+    .overlay {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease-in-out;
+    }
+
+    .overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+    width: 100%;
+    scroll-behavior: smooth;
+    background-color: #fafcffff;
+    }
+
+* {
+    -webkit-user-drag: none;
+    }
+
+    .hover-zoom:hover {
+    transform: scale(1.03);
+    transition: 0.3s ease-in-out;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+}
+
+.footer-section {
+    background: linear-gradient(135deg, #1a4fa4ff, #1b4880ff, #1a4fb2ff);
+    color: #f1f1f1;
+    position: fluid;         
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    z-index: 10;
+}
+
+
+.footer-inner {
+    width: 100%;
+    padding: 60px 80px 20px 80px;
+    margin: 0;
+    }
+
+    .footer-inner .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+    /* Brand */
+    .footer-brand img {
+    width: 60px;
+    height: 60px;
+    filter: brightness(1.2);
+    }
+
+    /* Headings */
+    .footer-heading {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #00b4d8;
+    display: inline-block;
+    padding-bottom: 5px;
+    }
+
+    /* Lists */
+    .footer-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    }
+
+    .footer-list li {
+    margin-bottom: 10px;
+    color: #cfd8dc;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    }
+
+    .footer-list li:hover {
+    color: #00b4d8;
+    text-decoration: underline;
+    }
+
+    /* Text */
+.footer-text {
+    color: #d0d6dc;
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+    /* Socials */
+.footer-socials .social-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+    color: #cfd8dc;
+}
+
+.footer-socials .social-icon:hover {
+    transform: scale(1.2);
+    color: #00b4d8;
+}
+
+    /* Divider */
+.footer-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 30px;
+}
+
+    /* Bottom */
+.footer-bottom-text {
+    text-align: center;
+    color: #b0bec5;
+    font-size: 14px;
+    margin-top: 10px;
+}
+@media (max-width: 768px) {
+    .footer-container {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .footer-brand h4 {
+        font-size: 20px;
+    }
+    }
+
+    .hover-blue:hover {
+    color: #007bff;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    }
+
+    .hero-section {
+        width: 100%;
+        background-color: #eaf5ff;
+    }
+
+    #facilities {
+    background-color: #f5f9ff;
+    }
+
+    #facilities h2 {
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 0.5px;
+    }
+
+    #facilities .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 123, 255, 0.2);
+}
+
+#faq .accordion-item {
+    border: none !important;
+    margin-bottom: 10px;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    }
+
+    #faq .accordion-button {
+    background-color: #e7f1ff !important;
+    color: #0d47a1 !important;
+    font-weight: 500;
+    border: none;
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
+    }
+
+    #faq .accordion-button:not(.collapsed) {
+    background-color: #bbdefb !important;
+    color: #0d47a1 !important;
+    box-shadow: none;
+    }
+
+    #faq .accordion-body {
+    background: #ffffff;
+    color: #333;
+    border-top: 1px solid #dee2e6;
+    padding: 15px 20px;
+}
+
+.container,
+.container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
