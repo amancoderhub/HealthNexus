@@ -34,7 +34,7 @@ const Preqapp = () => {
 
         const data = { pid, did, date, slot, desc };
         try {
-        const response = await axios.post("http://localhost:8000/api/app", data);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/app", data);
         if (response.data.msg === "Success") {
             window.alert("Appointment Request Sent ✅");
             resetForm();
@@ -49,7 +49,7 @@ const Preqapp = () => {
 
     const getdoc = useCallback(async () => {
         try {
-        const response = await axios.get("http://localhost:8000/api/doctor");
+        const response = await axios.get("https://healthnexus-backend-53ei.onrender.com/api/doctor");
         if (response.data.msg.toLowerCase() === "success") {
             setDoctors(response.data.value);
             setFdoc(response.data.value);
