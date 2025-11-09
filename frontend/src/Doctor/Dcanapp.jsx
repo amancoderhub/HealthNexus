@@ -17,7 +17,7 @@ const Dcanapp = () => {
       if (!data) return;
       const doctor = JSON.parse(data);
       const response = await axios.get(
-        `http://localhost:8000/api/app/d/${doctor._id}`
+        `https://healthnexus-backend-53ei.onrender.com/api/app/d/${doctor._id}`
       );
       if (response.data.msg === "Success") {
         const newdata = response.data.value.filter(
