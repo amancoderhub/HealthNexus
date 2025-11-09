@@ -33,7 +33,7 @@ const Pdash = () => {
         if (!id) return;
         try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:8000/api/patient/stats/${id}`);
+        const res = await axios.get(`https://healthnexus-backend-53ei.onrender.com/api/patient/stats/${id}`);
         if (res.data.msg === "Success") {
             setStats(res.data.value);
         }
