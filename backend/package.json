@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "MERN backend serving both API and frontend build",
+  "description": "",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
@@ -9,7 +9,6 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build": "cd ../frontend && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -20,9 +19,8 @@
     "express-validator": "^7.3.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
-    "nodemailer": "^7.0.10"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemailer": "^7.0.10",
+    "nodemon": "^3.1.10",
+    "react-icons": "^5.5.0"
   }
 }

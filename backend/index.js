@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("node:path");
+const path = require("path");
 
 const adminRoute = require("./Route/adminRoute");
 const doctorRoute = require("./Route/doctorRoute");
@@ -34,10 +34,10 @@ mongoose
     if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(_dirname, "../frontend/build")));
 
-    app.get("/*", (req, res) => {
+    app.get("*", (req, res) => {
         res.sendFile(path.resolve(_dirname, "../frontend/build", "index.html"));
     });
-}
+    }
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`🚀 Server running on port: ${PORT}`));
