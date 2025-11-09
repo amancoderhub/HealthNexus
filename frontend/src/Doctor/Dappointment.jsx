@@ -17,7 +17,7 @@ const Dappointment = () => {
         if (!data) return;
         const doctor = JSON.parse(data);
         const response = await axios.get(
-            `http://localhost:8000/api/app/d/${doctor._id}`
+            `https://healthnexus-backend-53ei.onrender.com/api/app/d/${doctor._id}`
         );
         if (response.data.msg === "Success") {
             const newdata = response.data.value.filter(
@@ -43,7 +43,7 @@ const Dappointment = () => {
 
     const handleUpdateStatus = async (id, status) => {
         try {
-        await axios.put(`http://localhost:8000/api/app/${id}`, { status });
+        await axios.put(`https://healthnexus-backend-53ei.onrender.com/api/app/${id}`, { status });
         setAppointments((prev) => prev.filter((app) => app._id !== id));
         alert(`Appointment ${status}`);
         } catch (err) {
