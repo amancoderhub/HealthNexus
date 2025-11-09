@@ -1,21 +1,11 @@
-# Node dependencies
 node_modules/
 frontend/node_modules/
 backend/node_modules/
 
-# Environment variables
 .env
-backend/.env
 frontend/.env
+backend/.env
 
-# Logs
 *.log
-logs/
-
-# OS files
 .DS_Store
 Thumbs.db
-
-# Build outputs
-frontend/build/
-backend/dist/
