@@ -24,7 +24,7 @@ const Pfeed = () => {
         const user = JSON.parse(localStorage.getItem("patient"));
         if (!user?._id) return;
         const res = await axios.get(
-            `http://localhost:8000/api/feed/user/patient/${user._id}`
+            `https://healthnexus-backend-53ei.onrender.com/api/feed/user/patient/${user._id}`
         );
         if (res.data.msg === "Success") setFeeds(res.data.value);
         } catch (err) {
