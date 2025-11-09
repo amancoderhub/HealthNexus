@@ -1,5 +1,5 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import Heroimg from "../assets/hero.png";
+import Heroimg from "../assets/Hero.png";
 import DoctorImg from "../assets/finddoc.png";
 import CheckupImg from "../assets/Healthcheck.png";
 import MedicineImg from "../assets/medicine.png";
