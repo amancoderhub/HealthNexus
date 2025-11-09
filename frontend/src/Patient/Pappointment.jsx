@@ -16,7 +16,7 @@ const Pappointment = () => {
         const data = localStorage.getItem("patient");
         if (!data) return;
         const patient = JSON.parse(data);
-        const response = await axios.get(`http://localhost:8000/api/app/p/${patient._id}`);
+        const response = await axios.get(`https://healthnexus-backend-53ei.onrender.com/api/app/p/${patient._id}`);
         if (response.data.msg === "Success") {
             setAppointments(response.data.value);
         } else {
