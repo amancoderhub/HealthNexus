@@ -54,7 +54,7 @@ const Pappointment = () => {
         if (!confirmDelete) return;
 
         try {
-        await axios.delete(`http://localhost:8000/api/app/${id}`);
+        await axios.delete(`https://healthnexus-backend-53ei.onrender.com/api/app/${id}`);
         setAppointments((prev) => prev.filter((app) => app._id !== id));
         alert("Appointment deleted successfully");
         } catch (err) {
