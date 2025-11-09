@@ -43,7 +43,7 @@ const Pfeed = () => {
         status: "u",
         };
         try {
-        const response = await axios.post("http://localhost:8000/api/feed", feed);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/feed", feed);
         if (response.data.msg === "Success") {
             alert("Feedback Added Successfully");
             setType("");
@@ -61,7 +61,7 @@ const Pfeed = () => {
     const deleteFeed = async (id) => {
         if (!window.confirm("Are you sure you want to delete this feedback?")) return;
         try {
-        const res = await axios.delete(`http://localhost:8000/api/feed/${id}`);
+        const res = await axios.delete(`https://healthnexus-backend-53ei.onrender.com/api/feed/${id}`);
         if (res.data.msg === "Success") {
             alert("Feedback deleted successfully");
             loadFeedbacks();
