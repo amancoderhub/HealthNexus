@@ -13,7 +13,7 @@ const Admindash = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     async function getall() {
-        const response = await axios.get("http://localhost:8000/api/admin/stats");
+        const response = await axios.get("https://healthnexus-backend-53ei.onrender.com/api/admin/stats");
         if (response.data.msg === "Success") {
         setStats(response.data.value);
         }
