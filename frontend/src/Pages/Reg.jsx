@@ -21,7 +21,7 @@ const Reg = () => {
         const patient = { name, email, number, password, age, gender, bloodgrp, address };
 
         try {
-        const response = await axios.post("http://localhost:8000/api/patient", patient);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/patient", patient);
         if (response.data.msg === "Success") {
             window.alert("Registration Successful ✅");
             setName("");

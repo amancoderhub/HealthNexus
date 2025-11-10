@@ -36,7 +36,7 @@ const Addoc = () => {
     async function docreg(e) {
         e.preventDefault();
         const doc = { name, email, number: mobile, password, gender, qua, exp, spe, address };
-        const response = await axios.post("http://localhost:8000/api/doctor", doc);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/doctor", doc);
         if (response.data.msg === "Success") {
         alert("✅ Doctor Added Successfully");
         setName("");

@@ -44,7 +44,7 @@ const Ddash = () => {
         try {
         setLoading(true);
         const response = await axios.get(
-            `http://localhost:8000/api/doctor/stats/${id}`
+            `https://healthnexus-backend-53ei.onrender.com/api/doctor/stats/${id}`
         );
         if (response.data.msg === "Success") {
             setStats((prev) => ({

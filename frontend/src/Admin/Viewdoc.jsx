@@ -33,7 +33,7 @@ const Viewdoc = () => {
 
     const fetchDoctors = async () => {
         try {
-        const res = await axios.get("http://localhost:8000/api/doctor");
+        const res = await axios.get("https://healthnexus-backend-53ei.onrender.com/api/doctor");
         if (res.data?.msg === "Success" && Array.isArray(res.data.value)) {
             setDoctors(res.data.value);
         } else {
@@ -46,7 +46,7 @@ const Viewdoc = () => {
 
     const deleteDoctor = async (id) => {
         try {
-        await axios.delete(`http://localhost:8000/api/doctor/${id}`);
+        await axios.delete(`https://healthnexus-backend-53ei.onrender.com/api/doctor/${id}`);
         setDoctors((prev) => prev.filter((doc) => doc._id !== id));
         } catch {
         alert("❌ Failed to delete doctor");
@@ -69,7 +69,7 @@ const Viewdoc = () => {
 
     const saveEdit = async (id) => {
         try {
-        const res = await axios.put(`http://localhost:8000/api/doctor/${id}`, formData);
+        const res = await axios.put(`https://healthnexus-backend-53ei.onrender.com/api/doctor/${id}`, formData);
         if (res.data.msg === "Success") {
             fetchDoctors();
             setEditingId(null);

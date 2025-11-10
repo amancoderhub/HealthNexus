@@ -17,7 +17,7 @@ function Login() {
 
         try {
         if (user.role === "Doctor") {
-            const response = await axios.post("http://localhost:8000/api/doctor/log", user);
+            const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/doctor/log", user);
             if (response.data.msg === "Success") {
             localStorage.setItem("role", "doctor");
             localStorage.setItem("doctor", JSON.stringify({ _id: response.data.id }));
@@ -26,7 +26,7 @@ function Login() {
             window.alert("Invalid Doctor credentials ❌");
             }
         } else if (user.role === "Patient") {
-            const response = await axios.post("http://localhost:8000/api/patient/log", user);
+            const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/patient/log", user);
             if (response.data.msg === "Success") {
             localStorage.setItem("role", "patient");
             localStorage.setItem("patient", JSON.stringify({ _id: response.data.id }));

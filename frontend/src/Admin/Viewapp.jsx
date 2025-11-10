@@ -32,7 +32,7 @@ const Viewapp = () => {
 
     const fetchAppointments = useCallback(async () => {
         try {
-        const response = await axios.get("http://localhost:8000/api/app");
+        const response = await axios.get("https://healthnexus-backend-53ei.onrender.com/api/app");
         if (response.data.msg === "Success") {
             setAppointments(response.data.value);
         } else {

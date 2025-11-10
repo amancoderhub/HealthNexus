@@ -21,7 +21,7 @@ const Pviewfeed = () => {
         const parsedUser = JSON.parse(userData);
         const uid = parsedUser._id;
 
-        const response = await axios.get(`http://localhost:8000/api/feed/u/${uid}`);
+        const response = await axios.get(`https://healthnexus-backend-53ei.onrender.com/api/feed/u/${uid}`);
 
         if (response.data.msg === "Success") {
             setFeedback(response.data.value);
@@ -34,7 +34,7 @@ const Pviewfeed = () => {
     const deleteFeed = async (id) => {
         if (window.confirm("Are you sure you want to delete this feedback?")) {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/feed/${id}`);
+            const response = await axios.delete(`https://healthnexus-backend-53ei.onrender.com/api/feed/${id}`);
             if (response.data.msg === "Success") {
             alert("✅ Feedback deleted successfully!");
             getfeed();

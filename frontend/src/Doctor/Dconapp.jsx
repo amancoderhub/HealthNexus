@@ -17,7 +17,7 @@ const Dconapp = () => {
         if (!data) return;
         const doctor = JSON.parse(data);
         const response = await axios.get(
-            `http://localhost:8000/api/app/d/${doctor._id}`
+            `https://healthnexus-backend-53ei.onrender.com/api/app/d/${doctor._id}`
         );
         if (response.data.msg === "Success") {
             const newdata = response.data.value.filter(
@@ -43,7 +43,7 @@ const Dconapp = () => {
 
     const handleComplete = async (id) => {
         try {
-        await axios.put(`http://localhost:8000/api/app/${id}/complete`);
+        await axios.put(`https://healthnexus-backend-53ei.onrender.com/api/app/${id}/complete`);
         fetchAppointments();
         alert("Appointment marked as completed ✅");
         } catch (err) {

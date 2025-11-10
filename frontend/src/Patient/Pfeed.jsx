@@ -24,7 +24,7 @@ const Pfeed = () => {
         const user = JSON.parse(localStorage.getItem("patient"));
         if (!user?._id) return;
         const res = await axios.get(
-            `http://localhost:8000/api/feed/user/patient/${user._id}`
+            `https://healthnexus-backend-53ei.onrender.com/api/feed/user/patient/${user._id}`
         );
         if (res.data.msg === "Success") setFeeds(res.data.value);
         } catch (err) {
@@ -43,7 +43,7 @@ const Pfeed = () => {
         status: "u",
         };
         try {
-        const response = await axios.post("http://localhost:8000/api/feed", feed);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/feed", feed);
         if (response.data.msg === "Success") {
             alert("Feedback Added Successfully");
             setType("");
@@ -61,7 +61,7 @@ const Pfeed = () => {
     const deleteFeed = async (id) => {
         if (!window.confirm("Are you sure you want to delete this feedback?")) return;
         try {
-        const res = await axios.delete(`http://localhost:8000/api/feed/${id}`);
+        const res = await axios.delete(`https://healthnexus-backend-53ei.onrender.com/api/feed/${id}`);
         if (res.data.msg === "Success") {
             alert("Feedback deleted successfully");
             loadFeedbacks();

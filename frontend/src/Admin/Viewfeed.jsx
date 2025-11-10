@@ -31,7 +31,7 @@ const Viewfeed = () => {
 
     const getFeedback = async () => {
         try {
-        const response = await axios.get("http://localhost:8000/api/feed");
+        const response = await axios.get("https://healthnexus-backend-53ei.onrender.com/api/feed");
         if (response.data.msg === "Success") {
             setFeedback(response.data.value);
         }
