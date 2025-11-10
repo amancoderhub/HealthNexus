@@ -20,7 +20,13 @@ mongoose.connect(dbUrl)
 .catch((err)=>console.log(`Error : ${err}`));
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://healthnexus-frontend-1.onrender.com" 
+    ],
+    credentials: true
+}));
 app.use('/api/admin',adminRoute);
 app.use('/api/doctor',doctorRoute);
 app.use('/api/patient',patientRoute);
