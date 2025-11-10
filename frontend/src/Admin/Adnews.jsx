@@ -34,7 +34,7 @@ const Adnews = () => {
 
     async function getNews() {
         try {
-        const res = await axios.get("http://localhost:8000/api/news");
+        const res = await axios.get("hhttps://healthnexus-backend-53ei.onrender.com/api/news");
         if (res.data.msg === "Success") setNews(res.data.value);
         } catch (err) {
         console.error(err);
@@ -44,7 +44,7 @@ const Adnews = () => {
     async function addNews(e) {
         e.preventDefault();
         try {
-        const res = await axios.post("http://localhost:8000/api/news", { title, desc });
+        const res = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/news", { title, desc });
         if (res.data.msg === "Success") {
             alert(" News Added Successfully");
             setTitle("");
