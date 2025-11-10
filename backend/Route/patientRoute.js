@@ -50,9 +50,10 @@ const sendMail = async(to,sub,msg)=>{
         let transport = nodemailer.createTransport({
             service:"gmail",
             auth:{
-                user:"saurbhsrivastav6@gmail.com",
-                pass:"lexe irbo ovgk fffq",
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
             }
+            
         });
         await transport.sendMail({
             from:"HealthNexsus",
@@ -62,14 +63,14 @@ const sendMail = async(to,sub,msg)=>{
         });
         console.log("Mail Send Success");
     } catch (error) {
-        console.log("Error during mail: ".error);
+        console.log("Error during mail: ", error);
     }
 }
 
 patientRoute.post('',async(req,res)=>{
     try {
         await patientModel.create(req.body);
-        sendMail(
+        await sendMail(
             req.body.email,
             "🎉 Registration Successful - Welcome to HealthNexus! 💚",
             `

@@ -33,7 +33,9 @@ const Pdash = () => {
         if (!id) return;
         try {
         setLoading(true);
-        const res = await axios.get(`https://healthnexus-backend-53ei.onrender.com/api/patient/stats/${id}`);
+        const res = await axios.get(
+            `https://healthnexus-backend-53ei.onrender.com/api/patient/stats/${id}`
+        );
         if (res.data.msg === "Success") {
             setStats(res.data.value);
         }
@@ -122,14 +124,14 @@ const Pdash = () => {
             </div>
         </header>
 
+        {/* Sidebar + Main Layout */}
         <div
             className="d-flex flex-grow-1 position-relative"
             style={{ marginTop: "9vh", overflow: "hidden" }}
         >
+            {/* Sidebar */}
             <aside
-            className={`position-fixed h-100 shadow-lg sidebar ${
-                sidebarOpen ? "open" : ""
-            }`}
+            className={`position-fixed h-100 shadow-lg sidebar ${sidebarOpen ? "open" : ""}`}
             style={{
                 width: "250px",
                 background: "linear-gradient(180deg, #6c8ab7ff, #dde9fcff)",
@@ -184,6 +186,7 @@ const Pdash = () => {
             </div>
             </aside>
 
+            {/* Overlay (Mobile) */}
             <div
             onClick={() => setSidebarOpen(false)}
             className={`position-fixed top-0 start-0 w-100 h-100 overlay ${
@@ -195,12 +198,14 @@ const Pdash = () => {
             }}
             ></div>
 
+            {/* Main Content */}
             <main
             className="flex-grow-1 bg-white p-4 overflow-auto rounded-top-start-4 shadow-sm"
             style={{
                 marginLeft: window.innerWidth >= 992 ? "250px" : "0",
                 transition: "margin-left 0.4s ease-in-out",
                 zIndex: 1000,
+                minHeight: "91vh",
             }}
             >
             <h4 className="my-4 text-center fw-bold text-dark fs-1">
@@ -214,16 +219,16 @@ const Pdash = () => {
                 </div>
                 </div>
             ) : (
-                <div className="container">
-                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                    <Card title="Total Appointments" value={stats.a} gradient="#1565c0,#64b5f6" />
-                    <Card title="Pending Appointments" value={stats.pena} gradient="#3949ab,#5c6bc0" />
-                    <Card title="Confirmed Appointments" value={stats.cona} gradient="#43e97b,#38f9d7" />
-                    <Card title="Cancelled Appointments" value={stats.cana} gradient="#ff512f,#dd2476" />
-                    <Card title="Completed Appointments" value={stats.coma} gradient="#396afc,#2948ff" />
-                    <Card title="Feedback" value={stats.f} gradient="#11998e,#38ef7d" />
-                    <Card title="Suggestions" value={stats.s} gradient="#a770ef,#cf8bf3,#fdb99b" />
-                    <Card title="Complaints" value={stats.c} gradient="#ff6a00,#ee0979" />
+                <div className="container-fluid">
+                <div className="row g-4 justify-content-center">
+                    <DashboardCard title="Total Appointments" value={stats.a} gradient="135deg, #1565c0, #64b5f6" />
+                    <DashboardCard title="Pending Appointments" value={stats.pena} gradient="135deg, #3949ab, #5c6bc0" />
+                    <DashboardCard title="Confirmed Appointments" value={stats.cona} gradient="135deg, #43e97b, #38f9d7" />
+                    <DashboardCard title="Cancelled Appointments" value={stats.cana} gradient="135deg, #ff512f, #dd2476" />
+                    <DashboardCard title="Completed Appointments" value={stats.coma} gradient="135deg, #396afc, #2948ff" />
+                    <DashboardCard title="Feedback" value={stats.f} gradient="135deg, #11998e, #38ef7d" />
+                    <DashboardCard title="Suggestions" value={stats.s} gradient="135deg, #a770ef, #cf8bf3, #fdb99b" />
+                    <DashboardCard title="Complaints" value={stats.c} gradient="135deg, #ff6a00, #ee0979" />
                 </div>
                 </div>
             )}
@@ -233,29 +238,34 @@ const Pdash = () => {
     );
     };
 
-    const Card = ({ title, value, gradient }) => (
-    <div className="col">
+    /* Reusable Dashboard Card */
+    const DashboardCard = ({ title, value, gradient }) => (
+    <div className="col-12 col-sm-6 col-lg-4 col-xl-3">
         <div
-        className="card text-center shadow border-0 h-100"
+        className="text-center shadow-sm border-0 h-100 p-4 rounded-4"
         style={{
-            background: `linear-gradient(135deg, ${gradient})`,
+            background: `linear-gradient(${gradient})`,
             color: "#fff",
-            borderRadius: "14px",
+            minHeight: "130px",
             transition: "transform 0.2s ease, box-shadow 0.2s ease",
         }}
         onMouseEnter={(e) => {
+            if (window.innerWidth >= 992) {
             e.currentTarget.style.transform = "scale(1.03)";
-            e.currentTarget.style.boxShadow = "0 6px 18px rgba(0,0,0,0.25)";
+            e.currentTarget.style.boxShadow = "0 8px 18px rgba(0,0,0,0.25)";
+            }
         }}
         onMouseLeave={(e) => {
             e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+            e.currentTarget.style.boxShadow = "0 4px 10px rgba(0,0,0,0.15)";
         }}
         >
-        <div className="card-body">
-            <h3 className="card-title fw-bold">{value ?? 0}</h3>
-            <p className="card-text fw-semibold">{title}</p>
-        </div>
+        <h2 className="fw-bold mb-2" style={{ fontSize: "2rem" }}>
+            {value ?? 0}
+        </h2>
+        <p className="fw-semibold mb-0" style={{ fontSize: "1rem" }}>
+            {title}
+        </p>
         </div>
     </div>
 );
