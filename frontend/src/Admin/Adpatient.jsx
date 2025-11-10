@@ -46,7 +46,7 @@ const Addpat = () => {
         };
 
         try {
-        const response = await axios.post("http://localhost:8000/api/patient", pat);
+        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/patient", pat);
         if (response.data.msg === "Success") {
             alert("✅ Patient Added Successfully");
             setName("");
