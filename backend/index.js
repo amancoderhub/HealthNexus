@@ -22,10 +22,12 @@ mongoose.connect(dbUrl)
 app.use(express.json());
 app.use(cors({
     origin: [
+        "https://healthnexus-frontend-1.onrender.com",
+        "http://localhost:5173",
         "http://localhost:3000",
-        "https://healthnexus-frontend-1.onrender.com" 
     ],
-    credentials: true
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
 }));
 app.use('/api/admin',adminRoute);
 app.use('/api/doctor',doctorRoute);
