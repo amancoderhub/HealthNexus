@@ -50,10 +50,9 @@ const sendMail = async(to,sub,msg)=>{
         let transport = nodemailer.createTransport({
             service:"gmail",
             auth:{
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user:"saurbhsrivastav6@gmail.com",
+                pass:"lexe irbo ovgk fffq",
             }
-            
         });
         await transport.sendMail({
             from:"HealthNexsus",
@@ -70,7 +69,7 @@ const sendMail = async(to,sub,msg)=>{
 patientRoute.post('',async(req,res)=>{
     try {
         await patientModel.create(req.body);
-        await sendMail(
+        sendMail(
             req.body.email,
             "🎉 Registration Successful - Welcome to HealthNexus! 💚",
             `
