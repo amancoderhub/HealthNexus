@@ -83,7 +83,7 @@ const Pdash = () => {
         <div className="vh-100 d-flex flex-column" style={{ background: "#e8f0ff" }}>
         {/* Header */}
         <header
-            className="d-flex justify-content-between align-items-center px-4 shadow-sm"
+            className="d-flex justify-content-between align-items-center px-4 shadow-sm flex-wrap"
             style={{
             height: "9vh",
             background: "linear-gradient(90deg, #1b52c7ff, #4f9dfc)",
@@ -104,11 +104,18 @@ const Pdash = () => {
                 <FaBars size={22} />
             </button>
             <img src={logo} alt="Logo" height="48" style={{ borderRadius: "6px" }} />
-            <h4 className="fw-bold mb-0">PATIENT DASHBOARD</h4>
+            <h4 className="fw-bold mb-0 text-nowrap">PATIENT DASHBOARD</h4>
             </div>
 
-            <div className="d-flex align-items-center gap-3" style={{ zIndex: 3100 }}>
-            <Link to="/" className="btn btn-primary btn-sm fw-semibold px-3">
+            {/* Hide Home & Logout on small screens */}
+            <div
+            className="d-none d-md-flex align-items-center gap-3"
+            style={{ zIndex: 3100 }}
+            >
+            <Link
+                to="/"
+                className="btn btn-primary btn-sm fw-semibold px-3 text-nowrap"
+            >
                 Home
             </Link>
             <button
@@ -117,7 +124,7 @@ const Pdash = () => {
                 localStorage.removeItem("role");
                 navigate("/login");
                 }}
-                className="btn btn-danger btn-sm px-3 fw-semibold"
+                className="btn btn-danger btn-sm px-3 fw-semibold text-nowrap"
             >
                 Logout
             </button>
@@ -131,7 +138,9 @@ const Pdash = () => {
         >
             {/* Sidebar */}
             <aside
-            className={`position-fixed h-100 shadow-lg sidebar ${sidebarOpen ? "open" : ""}`}
+            className={`position-fixed h-100 shadow-lg sidebar ${
+                sidebarOpen ? "open" : ""
+            }`}
             style={{
                 width: "250px",
                 background: "linear-gradient(180deg, #6c8ab7ff, #dde9fcff)",
@@ -221,14 +230,46 @@ const Pdash = () => {
             ) : (
                 <div className="container-fluid">
                 <div className="row g-4 justify-content-center">
-                    <DashboardCard title="Total Appointments" value={stats.a} gradient="135deg, #1565c0, #64b5f6" />
-                    <DashboardCard title="Pending Appointments" value={stats.pena} gradient="135deg, #3949ab, #5c6bc0" />
-                    <DashboardCard title="Confirmed Appointments" value={stats.cona} gradient="135deg, #43e97b, #38f9d7" />
-                    <DashboardCard title="Cancelled Appointments" value={stats.cana} gradient="135deg, #ff512f, #dd2476" />
-                    <DashboardCard title="Completed Appointments" value={stats.coma} gradient="135deg, #396afc, #2948ff" />
-                    <DashboardCard title="Feedback" value={stats.f} gradient="135deg, #11998e, #38ef7d" />
-                    <DashboardCard title="Suggestions" value={stats.s} gradient="135deg, #a770ef, #cf8bf3, #fdb99b" />
-                    <DashboardCard title="Complaints" value={stats.c} gradient="135deg, #ff6a00, #ee0979" />
+                    <DashboardCard
+                    title="Total Appointments"
+                    value={stats.a}
+                    gradient="135deg, #1565c0, #64b5f6"
+                    />
+                    <DashboardCard
+                    title="Pending Appointments"
+                    value={stats.pena}
+                    gradient="135deg, #3949ab, #5c6bc0"
+                    />
+                    <DashboardCard
+                    title="Confirmed Appointments"
+                    value={stats.cona}
+                    gradient="135deg, #43e97b, #38f9d7"
+                    />
+                    <DashboardCard
+                    title="Cancelled Appointments"
+                    value={stats.cana}
+                    gradient="135deg, #ff512f, #dd2476"
+                    />
+                    <DashboardCard
+                    title="Completed Appointments"
+                    value={stats.coma}
+                    gradient="135deg, #396afc, #2948ff"
+                    />
+                    <DashboardCard
+                    title="Feedback"
+                    value={stats.f}
+                    gradient="135deg, #11998e, #38ef7d"
+                    />
+                    <DashboardCard
+                    title="Suggestions"
+                    value={stats.s}
+                    gradient="135deg, #a770ef, #cf8bf3, #fdb99b"
+                    />
+                    <DashboardCard
+                    title="Complaints"
+                    value={stats.c}
+                    gradient="135deg, #ff6a00, #ee0979"
+                    />
                 </div>
                 </div>
             )}
