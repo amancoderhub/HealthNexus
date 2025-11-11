@@ -213,16 +213,37 @@ body {
     padding-right: 0 !important;
 }
 
-@media (max-width: 768px) {
-    header h4 {
-        font-size: 1rem !important;
+
+main {
+    overflow-x: hidden !important;
     }
 
-    header img {
-        height: 40px !important;
+    .container-fluid {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     }
 
-    .btn.text-white.border-0.d-lg-none {
-        margin-right: 6px;
+    @media (max-width: 992px) {
+    main {
+        margin-left: 0 !important;
+        padding: 1rem !important;
+    }
+    }
+
+    @media (max-width: 576px) {
+    h4.fs-1 {
+        font-size: 1.6rem !important;
+    }
+
+    .text-center h2 {
+        font-size: 1.8rem !important;
+    }
+
+    .text-center p {
+        font-size: 0.95rem !important;
+    }
+
+    .rounded-top-start-4 {
+        border-top-left-radius: 0.8rem !important;
     }
 }
