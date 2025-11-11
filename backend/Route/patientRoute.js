@@ -63,7 +63,7 @@ const sendMail = async(to,sub,msg)=>{
         });
         console.log("Mail Send Success");
     } catch (error) {
-        console.log("Error during mail: ", error);
+        console.log("Error during mail: ".error);
     }
 }
 
