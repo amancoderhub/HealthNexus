@@ -64,7 +64,6 @@
 - Integrated **MongoDB database with backend**  
 - Structured the project for **scalability and maintainability**  
 
----
 
 ## 🚀 Getting Started  
 
