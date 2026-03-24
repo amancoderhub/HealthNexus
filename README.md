@@ -1,78 +1,82 @@
-🏥 HealthNexus
+# 🏥 HealthNexus  
+### Doctor–Patient Management System  
 
-Doctor–Patient Management System
+## 🌐 Live Demo  
 
-📌 Project Overview
+🚀 Experience the application live:
+- 👨‍💼 **Admin Panel:**  
+  https://mealmate-admin-97sa.onrender.com  
 
-HealthNexus is a web-based application designed to simplify the interaction between doctors and patients. It helps manage appointments, patient records, and basic healthcare workflows in a digital and organized manner.
+- 🌍 **Frontend (User Interface):**  
+  https://mealmate-frontend-yfr5.onrender.com  
 
-🎯 Objective
+---
 
-To provide a centralized platform for doctors and patients
+## 📌 Project Overview  
 
-To reduce manual record handling
+**HealthNexus** is a full-stack web application designed to streamline interactions between doctors and patients. It digitizes appointment scheduling, patient records, and healthcare workflows to improve efficiency and accessibility.
 
-To make healthcare management simple and efficient
+---
 
-🛠️ Tech Stack
+## 🎯 Objectives  
 
-Frontend: React.js, HTML, CSS, Tailwind CSS
+- Provide a **centralized platform** for doctors and patients  
+- Eliminate **manual record-keeping**  
+- Enable **efficient healthcare management**  
+- Ensure **secure and organized data handling**  
 
-Backend: Node.js, Express.js
+---
 
-Database: MongoDB
+## 🛠️ Tech Stack  
 
-Authentication: JWT-based authentication
+### 💻 Frontend  
+- React.js  
+- HTML5, CSS3  
+- Tailwind CSS  
 
-✨ Key Features
+### ⚙️ Backend  
+- Node.js  
+- Express.js  
 
-👨‍⚕️ Doctor and Patient Login/Register
+### 🗄️ Database  
+- MongoDB (Mongoose)  
 
-📅 Appointment booking and management
+### 🔐 Authentication  
+- JWT (JSON Web Tokens)  
 
-📋 Patient medical record storage
+---
 
-🔐 Secure authentication and authorization
+## ✨ Key Features  
 
-📱 Responsive and user-friendly UI
+- 👨‍⚕️ **Doctor & Patient Authentication**  
+  - Secure login & registration system  
 
-👨‍💻 My Contribution
+- 📅 **Appointment Management**  
+  - Book, view, and manage appointments  
 
-Designed and developed frontend components
+- 📋 **Medical Records Storage**  
+  - Maintain digital patient history  
 
-Implemented backend APIs for users and appointments
+- 🔐 **Authorization System**  
+  - Role-based access (Doctor/Patient)  
 
-Integrated authentication and database connectivity
+- 📱 **Responsive UI**  
+  - Optimized for desktop & mobile devices  
 
-🚀 How to Run the Project
+---
 
-Clone the repository
+## 👨‍💻 My Contributions  
 
+- Built **responsive frontend UI** using React & Tailwind  
+- Developed **RESTful APIs** for users and appointments  
+- Implemented **JWT-based authentication system**  
+- Integrated **MongoDB database with backend**  
+- Structured the project for **scalability and maintainability**  
+
+
+## 🚀 Getting Started  
+
+### 1️⃣ Clone the Repository  
+```bash
 git clone <repository-url>
-
-
-Install dependencies
-
-npm install
-
-
-Start the backend server
-
-npm run server
-
-
-Start the frontend
-
-npm start
-
-📈 Future Enhancements
-
-Online consultation feature
-
-Email/SMS appointment notifications
-
-Admin dashboard for system monitoring
-
-📄 Conclusion
-
-HealthNexus improves healthcare management by providing a digital platform that connects doctors and patients efficiently, ensuring better organization and accessibility of medical informatio
+cd healthnexus

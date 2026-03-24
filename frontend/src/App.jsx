@@ -23,12 +23,18 @@ import Dcanapp from './Doctor/Dcanapp';
 import Dcomapp from './Doctor/Dcomapp';
 import Pfeed from './Patient/Pfeed';
 import Pviewfeed from './Patient/Pviewfeed';
+import BlogsPage from './Pages/Blogs';
+import ServicesPage from './Pages/Services';
+import DoctorsPage from './Pages/Doctors';
 
 function App() {
   return (
     <div className="container-fluid">
       <Routes>
         <Route path='/' element={<Landing />} />
+        <Route path='/blogs' element={<BlogsPage />} />
+        <Route path='/services' element={<ServicesPage />} />
+        <Route path='/doctors' element={<DoctorsPage />} />
 
         <Route path='/reg' element={<Reg />} />
         <Route path='/login' element={<Login />} />

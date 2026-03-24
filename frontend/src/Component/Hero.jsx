@@ -1,4 +1,5 @@
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Heroimg from "../assets/Hero.png";
 import DoctorImg from "../assets/finddoc.png";
 import CheckupImg from "../assets/Healthcheck.png";
@@ -10,16 +11,19 @@ export default function Hero() {
         title: "Find a Doctor",
         img: DoctorImg,
         bg: "linear-gradient(135deg, #e3f2fd, #bbdefb)", 
+        link: "/doctors"
         },
         {
         title: "Health Check-up",
         img: CheckupImg,
         bg: "linear-gradient(135deg, #e8f5e9, #c8e6c9)", 
+        link: "/login"
         },
         {
         title: "Order Medicine",
         img: MedicineImg,
         bg: "linear-gradient(135deg, #fff3e0, #ffe0b2)", 
+        link: "#"
         },
     ];
 
@@ -34,7 +38,7 @@ export default function Hero() {
             paddingTop: "80px",
         }}
         >
-        <Container fluid="xxl" className="px-5 py-5">
+        <Container fluid="xxl" className="px-3 px-md-5 py-5">
             <Row className="align-items-center">
             <Col md={6}>
                 <h1 className="fw-bold text-dark mb-3 ">
@@ -77,6 +81,7 @@ export default function Hero() {
             <Row className="mt-5 justify-content-center">
             {features.map((item, i) => (
                 <Col md={4} sm={6} xs={12} key={i} className="mb-3">
+                <Link to={item.link} style={{ textDecoration: "none" }}>
                 <div
                     className="feature-card text-center p-4 shadow-sm h-100 rounded-4"
                     style={{
@@ -107,6 +112,7 @@ export default function Hero() {
                     />
                     <h5 className="fw-semibold text-dark">{item.title}</h5>
                 </div>
+                </Link>
                 </Col>
             ))}
             </Row>

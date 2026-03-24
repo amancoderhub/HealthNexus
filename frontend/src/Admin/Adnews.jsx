@@ -70,12 +70,11 @@ const Adnews = () => {
     }, []);
 
     return (
-        <div className="vh-100 d-flex flex-column" style={{ background: "#e8f0ff" }}>
+        <div className="vh-100 d-flex flex-column bg-layout-premium" style={{ background: "#e8f0ff" }}>
         
         
 
-        <header
-            className="d-flex justify-content-between align-items-center px-4 shadow-sm"
+        <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm"
             style={{
             height: "9vh",
             background: "linear-gradient(90deg, #2563eb, #4f9dfc)",
@@ -101,11 +100,11 @@ const Adnews = () => {
                 alt="Logo"
                 height="52"
             />
-            <h4 className="fw-bold mb-0"> ADMIN DASHBOARD</h4>
+            <h4 className="fw-bold mb-0 d-none d-md-block"> ADMIN DASHBOARD</h4>
             </div>
 
             <div className="d-flex align-items-center gap-3" style={{ zIndex: 3100 }}>
-            <Link to="/" className="btn btn btn-primary btn-sm fw-semibold px-3">
+            <Link to="/" className="btn btn-premium btn-sm fw-semibold px-3 d-none d-sm-block">
                 Home
             </Link>
             <button
@@ -126,7 +125,7 @@ const Adnews = () => {
             style={{ marginTop: "9vh", overflow: "hidden" }}
         >
             <aside
-            className={`position-fixed h-100 shadow-lg sidebar ${
+            className={`position-fixed h-100 shadow-lg sidebar sidebar-premium ${
                 sidebarOpen ? "open" : ""
             }`}
             style={{
@@ -162,7 +161,7 @@ const Adnews = () => {
                         to={link.to}
                         className={`d-block py-2 px-3 rounded-3 fw-semibold text-center shadow-sm ${
                         location.pathname === link.to
-                            ? "bg-primary text-white"
+                            ? "bg-primary-gradient text-white"
                             : "bg-white text-dark"
                         }`}
                         style={{
@@ -206,7 +205,7 @@ const Adnews = () => {
             <div className="container d-flex justify-content-center">
                 <form
                 onSubmit={addNews}
-                className="shadow p-5 rounded-4"
+                className="shadow glass-surface p-3 p-md-5 rounded-4"
                 style={{
                     background: "#9abae9ff",
                     width: "100%",
@@ -239,7 +238,7 @@ const Adnews = () => {
                 <div className="text-center">
                     <button
                     type="submit"
-                    className="btn btn-primary rounded-pill px-4 fw-semibold"
+                    className="btn btn-premium rounded-pill px-4 fw-semibold"
                     >
                     Add News
                     </button>

@@ -50,7 +50,7 @@ export default function Testimonials() {
             </h2>
 
             <div
-            className="rounded-4 p-5 shadow-sm"
+            className="rounded-4 p-3 p-md-5 shadow-sm"
             style={{
                 background: "#f4faff",
                 boxShadow: "0 5px 25px rgba(0,0,0,0.05)",

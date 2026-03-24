@@ -32,7 +32,7 @@ export default function Specialities() {
                 {specialities.map((sp, i) => (
                     <div
                     key={i}
-                    className="d-flex align-items-center col-6 mb-3"
+                    className="d-flex align-items-center col-12 col-sm-6 mb-3"
                     style={{
                         fontSize: "15px",
                         color: "#333",

@@ -113,10 +113,9 @@ const Preqapp = () => {
     ];
 
     return (
-        <div className="vh-100 d-flex flex-column" style={{ background: "#e8f0ff" }}>
+        <div className="vh-100 d-flex flex-column bg-layout-premium" style={{ background: "#e8f0ff" }}>
         {/* Header */}
-        <header
-            className="d-flex justify-content-between align-items-center px-4 shadow-sm"
+        <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm"
             style={{
             height: "9vh",
             background: "linear-gradient(90deg, #1b52c7ff, #4f9dfc)",
@@ -137,16 +136,16 @@ const Preqapp = () => {
                 <FaBars size={22} />
             </button>
             <img src={logo} alt="Logo" height="48" style={{ borderRadius: "6px" }} />
-            <h4 className="fw-bold mb-0">PATIENT DASHBOARD</h4>
+            <h4 className="fw-bold mb-0 d-none d-md-block">PATIENT DASHBOARD</h4>
             </div>
 
             <div className="d-flex align-items-center gap-3" style={{ zIndex: 3100 }}>
-            <Link to="/" className="btn btn-primary btn-sm fw-semibold px-3">
+            <Link to="/" className="btn btn-premium btn-sm fw-semibold px-3 d-none d-sm-block">
                 Home
             </Link>
             <button
                 onClick={() => {
-                localStorage.removeItem("patient");
+                localStorage.removeItem("patient"); localStorage.removeItem("role");
                 localStorage.removeItem("role");
                 navigate("/login");
                 }}
@@ -164,7 +163,7 @@ const Preqapp = () => {
         >
             {/* Sidebar */}
             <aside
-            className={`position-fixed h-100 shadow-lg sidebar ${
+            className={`position-fixed h-100 shadow-lg sidebar sidebar-premium ${
                 sidebarOpen ? "open" : ""
             }`}
             style={{
@@ -201,7 +200,7 @@ const Preqapp = () => {
                         to={link.to}
                         className={`d-block py-2 px-3 rounded-3 fw-semibold text-center shadow-sm ${
                         location.pathname === link.to
-                            ? "bg-primary text-white"
+                            ? "bg-primary-gradient text-white"
                             : "bg-white text-dark"
                         }`}
                         style={{
@@ -245,7 +244,7 @@ const Preqapp = () => {
             </h4>
 
             <div
-                className="col-md-8 mx-auto p-5 rounded-4 shadow-lg"
+                className="col-md-8 mx-auto glass-surface p-3 p-md-5 rounded-4 shadow-lg"
                 style={{ background: "#a0c1e6ff" }}
             >   
                 <img src={logo} alt="Logo" height="50" className="text-center mb-4" />
@@ -310,7 +309,7 @@ const Preqapp = () => {
 
                 <button
                     type="submit"
-                    className="btn btn-primary w-100 fw-semibold py-2 rounded-pill"
+                    className="btn btn-premium w-100 fw-semibold py-2 rounded-pill"
                 >
                     Request Appointment
                 </button>

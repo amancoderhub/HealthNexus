@@ -19,6 +19,15 @@ const Reg = () => {
     async function regcode(e) {
         e.preventDefault();
         const patient = { name, email, number, password, age, gender, bloodgrp, address };
+        setName("");
+        setEmail("");
+        setNumber("");
+        setAltnumber("");
+        setAge("");
+        setGender("");
+        setBloodgrp("");
+        setAddress("");
+        setPassword("");
 
         try {
         const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/patient", patient);
@@ -46,14 +55,13 @@ const Reg = () => {
 
     return (
         <div
-        className="d-flex flex-column min-vh-100"
+        className="d-flex flex-column min-vh-100 bg-layout-premium"
         style={{
             background: "linear-gradient(180deg, #ffffffff, #d6e3f8ff)",
         }}
         >
         {/* Navbar */}
-        <header
-            className="d-flex justify-content-between align-items-center px-4 shadow-sm"
+        <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm"
             style={{
             height: "9vh",
             background: "linear-gradient(90deg, #71a1eaff, #71a9eeff)",
@@ -73,7 +81,7 @@ const Reg = () => {
             <div className="d-flex align-items-center gap-3">
             <Link
                 to="/"
-                className="btn btn btn-primary btn-sm fw-semibold px-3"
+                className="btn btn btn-premium btn-sm fw-semibold px-3"
                 style={{
                 borderRadius: "50px",
                 transition: "0.3s",
@@ -90,7 +98,7 @@ const Reg = () => {
             style={{ marginTop: "20vh" }}
         >
             <div
-            className="shadow-lg p-5 rounded-4 w-100"
+            className="shadow-lg glass-surface p-3 p-md-5 rounded-4 w-100"
             style={{
                 background: "linear-gradient(180deg, #cbd4e8ff, #5a83caff)",
                 maxWidth: "520px",
@@ -222,7 +230,7 @@ const Reg = () => {
 
                 <button
                 type="submit"
-                className="btn btn-primary w-100 fw-semibold py-2 rounded-pill"
+                className="btn btn-premium w-100 fw-semibold py-2 rounded-pill"
                 style={{
                     background: "linear-gradient(90deg, #1b52c7ff, #4190f1ff)",
                     border: "none",

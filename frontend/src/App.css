@@ -142,9 +142,8 @@ body {
     margin-top: 10px;
 }
 @media (max-width: 768px) {
-    .footer-container {
-        padding-left: 25px;
-        padding-right: 25px;
+    .footer-inner {
+        padding: 40px 25px 20px 25px;
     }
 
     .footer-brand h4 {

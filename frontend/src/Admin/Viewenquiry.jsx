@@ -99,9 +99,8 @@ const Viewenquiry = () => {
     ];
 
     return (
-        <div className="vh-100 d-flex flex-column" style={{ background: "#e8f0ff" }}>
-        <header
-            className="d-flex justify-content-between align-items-center px-4 shadow-sm"
+        <div className="vh-100 d-flex flex-column bg-layout-premium" style={{ background: "#e8f0ff" }}>
+        <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm"
             style={{
             height: "9vh",
             background: "linear-gradient(90deg, #1b52c7ff, #4f9dfc)",
@@ -122,11 +121,11 @@ const Viewenquiry = () => {
                 <FaBars size={22} />
             </button>
             <img src={logo} alt="Logo" height="48" style={{ borderRadius: "6px" }} />
-            <h4 className="fw-bold mb-0"> ADMIN DASHBOARD</h4>
+            <h4 className="fw-bold mb-0 d-none d-md-block"> ADMIN DASHBOARD</h4>
             </div>
 
             <div className="d-flex align-items-center gap-3" style={{ zIndex: 3100 }}>
-            <Link to="/" className="btn btn btn-primary btn-sm fw-semibold px-3">
+            <Link to="/" className="btn btn-premium btn-sm fw-semibold px-3 d-none d-sm-block">
                 Home
             </Link>
             <button
@@ -143,7 +142,7 @@ const Viewenquiry = () => {
             style={{ marginTop: "9vh", overflow: "hidden" }}
         >
             <aside
-            className={`position-fixed h-100 shadow-lg sidebar ${
+            className={`position-fixed h-100 shadow-lg sidebar sidebar-premium ${
                 sidebarOpen ? "open" : ""
             }`}
             style={{
@@ -180,7 +179,7 @@ const Viewenquiry = () => {
                         to={link.to}
                         className={`d-block py-2 px-3 rounded-3 fw-semibold text-center shadow-sm ${
                         location.pathname === link.to
-                            ? "bg-primary text-white"
+                            ? "bg-primary-gradient text-white"
                             : "bg-white text-dark"
                         }`}
                         style={{
@@ -222,7 +221,7 @@ const Viewenquiry = () => {
             <h4 className="my-4 text-center fw-bold text-dark fs-1">VIEW ENQUIRY</h4>
 
             <div
-                className="col-md-11 p-5 rounded shadow-lg mx-auto"
+                className="col-md-11 glass-surface p-3 p-md-5 rounded shadow-lg mx-auto"
                 style={{
                 overflowY: "auto",
                 background: "#aec6e2ff",

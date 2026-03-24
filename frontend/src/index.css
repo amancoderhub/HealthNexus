@@ -6,3 +6,59 @@
     transform: translateY(-2px);
     transition: 0.3s;
 }
+
+/* =========================================
+   PREMIUM HEALTHCARE UI STYLES
+   ========================================= */
+
+:root {
+  --health-primary: #2563eb;
+  --health-primary-dark: #1e40af;
+  --health-secondary: #0ea5e9;
+  --health-bg: #f8fafc;
+  --health-surface: rgba(255, 255, 255, 0.85);
+}
+
+.bg-layout-premium {
+  background: linear-gradient(135deg, #f0f4fd 0%, #e4ebf7 100%) !important;
+  min-height: 100vh;
+}
+
+.header-premium {
+  background: linear-gradient(135deg, var(--health-primary-dark), var(--health-primary)) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.glass-surface {
+  background: var(--health-surface) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 10px 40px rgba(31, 38, 135, 0.08) !important;
+}
+
+.btn-premium {
+  background: linear-gradient(135deg, var(--health-primary), var(--health-secondary)) !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2) !important;
+}
+
+.btn-premium:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4) !important;
+  color: white !important;
+}
+
+.sidebar-premium {
+  background: linear-gradient(180deg, #ffffff, #f1f5f9) !important;
+  border-right: 1px solid rgba(0,0,0,0.05) !important;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.02) !important;
+}
+
+.bg-primary-gradient {
+  background: linear-gradient(135deg, var(--health-primary), var(--health-primary-dark)) !important;
+  color: white !important;
+}
