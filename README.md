@@ -1,9 +1,15 @@
 # 🏥 HealthNexus  
 ### Doctor–Patient Management System  
 
-Deploy Link-
-Admin : https://mealmate-admin-97sa.onrender.com
-frontend : https://mealmate-frontend-yfr5.onrender.com
+## 🌐 Live Demo  
+
+🚀 Experience the application live:
+- 👨‍💼 **Admin Panel:**  
+  https://mealmate-admin-97sa.onrender.com  
+
+- 🌍 **Frontend (User Interface):**  
+  https://mealmate-frontend-yfr5.onrender.com  
+
 ---
 
 ## 📌 Project Overview  
