@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TopNavbar from "../Component/TopNavbar";
 import Footer from "../Component/Footer";
+import { getDoctors } from "../services/doctorService";
 
 export default function DoctorsPage() {
     const [doctors, setDoctors] = useState([]);
@@ -14,7 +14,7 @@ export default function DoctorsPage() {
         
         const fetchDoctorsData = async () => {
             try {
-                let res = await axios.get("https://healthnexus-backend-53ei.onrender.com/api/doctor");
+                const res = await getDoctors();
                 if (res.data?.msg === "Success" && Array.isArray(res.data.value)) {
                     setDoctors(res.data.value);
                 }

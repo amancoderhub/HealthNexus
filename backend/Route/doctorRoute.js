@@ -3,6 +3,7 @@ const doctorRoute = express.Router();
 const doctorModel = require('../Model/doctorModel');
 const appModel = require('../Model/appModel');
 const feedModel = require('../Model/feedModel');
+const { verifyPassword, createAuthResponse } = require("../services/authService");
 
 doctorRoute.get('', async(req,res)=>{
     try {
@@ -47,20 +48,17 @@ doctorRoute.post('/log' ,async(req,res)=>{
 
     try {
         const {email,password} = req.body;
-    const ad = await doctorModel.findOne({email});
-    if(!ad){
-        res.json({ "msg":"Not Found"});
+    const doctor = await doctorModel.findOne({ email: email.toLowerCase() });
+    const isPasswordValid = await verifyPassword(doctor, password);
+
+    if (!isPasswordValid) {
+        return res.status(401).json({ msg: "Invalid email or password" });
     }
-    else{
-        if(ad.password == password){
-            res.json({"msg": "Success", "id":ad._id});
-        }
-        else{
-            res.json({"msg": "Something Went Wrong"});
-        }
-    }
+
+    const auth = createAuthResponse(doctor, "doctor");
+    res.json({ msg: "Success", id: doctor._id, ...auth });
     } catch (error) {
-        res.json({"msg": error});
+        res.status(500).json({ msg: "Unable to log in" });
     }
 })
 

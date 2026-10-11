@@ -6,6 +6,7 @@ const patientModel = require('../Model/patientModel');
 const newsModel = require('../Model/newsModel');
 const appModel = require('../Model/appModel');
 const feedModel = require('../Model/feedModel');
+const { verifyPassword, createAuthResponse } = require("../services/authService");
 
 adminRoute.get('',(req,res)=>{
     res.end("Hello");
@@ -33,20 +34,16 @@ adminRoute.post('/log' ,async(req,res)=>{
 
     try {
         const {email,password} = req.body;
-    const ad = await adminModel.findOne({email});
-    if(!ad){
-        res.json({ "msg":"Not Found"});
+    const admin = await adminModel.findOne({ email: email.toLowerCase() });
+    const isPasswordValid = await verifyPassword(admin, password);
+
+    if (!isPasswordValid) {
+        return res.status(401).json({ msg: "Invalid email or password" });
     }
-    else{
-        if(ad.password == password){
-            res.json({"msg": "Success"});
-        }
-        else{
-            res.json({"msg": "Something Went Wrong"});
-        }
-    }
+
+    res.json({ msg: "Success", ...createAuthResponse(admin, "admin") });
     } catch (error) {
-        res.json({"msg": error});
+        res.status(500).json({ msg: "Unable to log in" });
     }
 })
 

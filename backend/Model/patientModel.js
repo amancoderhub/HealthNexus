@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcryptjs");
 
 const patientSchema = mongoose.Schema({
     name: {
@@ -43,6 +44,12 @@ const patientSchema = mongoose.Schema({
         default: "u"
     }
 }, { timestamps: true });
+
+patientSchema.pre("save", async function hashPasswordBeforeSave(next) {
+    if (!this.isModified("password")) return next();
+    this.password = await bcrypt.hash(this.password, 12);
+    next();
+});
 
 const patientModel = mongoose.model("patient", patientSchema);
 

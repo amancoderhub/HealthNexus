@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+import httpClient from "../services/httpClient";
 
 function Adlogin() {
     const [email, setEmail] = useState("");
@@ -10,7 +10,7 @@ function Adlogin() {
 
     useEffect(() => {
         const admin = localStorage.getItem("admin");
-        if (admin) navigate("/admindash");
+        if (admin && localStorage.getItem("authToken")) navigate("/admindash");
     }, [navigate]);
 
     async function adlog(e) {
@@ -20,9 +20,10 @@ function Adlogin() {
         setPassword("");
 
         try {
-        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/admin/log", admin);
+        const response = await httpClient.post("/admin/log", admin);
         if (response.data.msg === "Success") {
-            localStorage.setItem("admin", "admin@gmail.com");
+            localStorage.setItem("authToken", response.data.token);
+            localStorage.setItem("admin", response.data.user.email);
             setEmail("");
             setPassword("");
             navigate("/admindash");

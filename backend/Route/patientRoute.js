@@ -3,6 +3,7 @@ const patientModel = require('../Model/patientModel');
 const nodemailer = require('nodemailer');
 const appModel = require('../Model/appModel');
 const feedModel = require('../Model/feedModel');
+const { verifyPassword, createAuthResponse } = require("../services/authService");
 
 const patientRoute = express.Router();
 
@@ -134,20 +135,17 @@ patientRoute.post('/log' ,async(req,res)=>{
 
     try {
         const {email,password} = req.body;
-    const ad = await patientModel.findOne({email});
-    if(!ad){
-        res.json({ "msg":"Not Found"});
+    const patient = await patientModel.findOne({ email: email.toLowerCase() });
+    const isPasswordValid = await verifyPassword(patient, password);
+
+    if (!isPasswordValid) {
+        return res.status(401).json({ msg: "Invalid email or password" });
     }
-    else{
-        if(ad.password == password){
-            res.json({"msg": "Success", "id":ad._id});
-        }
-        else{
-            res.json({"msg": "Something Went Wrong"});
-        }
-    }
+
+    const auth = createAuthResponse(patient, "patient");
+    res.json({ msg: "Success", id: patient._id, ...auth });
     } catch (error) {
-        res.json({"msg": error});
+        res.status(500).json({ msg: "Unable to log in" });
     }
 })
 

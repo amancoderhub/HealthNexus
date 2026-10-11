@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUserMd, FaUser, FaLock } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import "../App.css";
+import httpClient from "../services/httpClient";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -26,8 +26,9 @@ function Login() {
 
         try {
         if (user.role === "Doctor") {
-            const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/doctor/log", user);
+            const response = await httpClient.post("/doctor/log", user);
             if (response.data.msg === "Success") {
+            localStorage.setItem("authToken", response.data.token);
             localStorage.setItem("role", "doctor");
             localStorage.setItem("doctor", JSON.stringify({ _id: response.data.id }));
             navigate("/ddash");
@@ -35,8 +36,9 @@ function Login() {
             window.alert("Invalid Doctor credentials ❌");
             }
         } else if (user.role === "Patient") {
-            const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/patient/log", user);
+            const response = await httpClient.post("/patient/log", user);
             if (response.data.msg === "Success") {
+            localStorage.setItem("authToken", response.data.token);
             localStorage.setItem("role", "patient");
             localStorage.setItem("patient", JSON.stringify({ _id: response.data.id }));
             navigate("/pdash");
