@@ -1,193 +1,91 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { FaUserMd, FaUser, FaLock } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaLock, FaUser, FaUserMd } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "../App.css";
 import httpClient from "../services/httpClient";
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
-    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [formError, setFormError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const savedRole = localStorage.getItem("role");
         if (savedRole === "patient") navigate("/pdash");
-        else if (savedRole === "doctor") navigate("/ddash");
+        if (savedRole === "doctor") navigate("/ddash");
     }, [navigate]);
 
-    async function adlog(e) {
-        e.preventDefault();
-        const user = { email, password, role };
-        setEmail("");
-        setPassword("");
-        setRole("");
+    function validateForm() {
+        const nextErrors = {};
+        if (!email.trim()) nextErrors.email = "Enter your email address.";
+        else if (!/^\S+@\S+\.\S+$/.test(email)) nextErrors.email = "Enter a valid email address.";
+        if (!password) nextErrors.password = "Enter your password.";
+        if (!role) nextErrors.role = "Select whether you are a doctor or patient.";
+        setErrors(nextErrors);
+        return Object.keys(nextErrors).length === 0;
+    }
+
+    function updateField(field, value) {
+        if (errors[field]) setErrors((current) => ({ ...current, [field]: "" }));
+        if (formError) setFormError("");
+        if (field === "email") setEmail(value);
+        if (field === "password") setPassword(value);
+        if (field === "role") setRole(value);
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        if (!validateForm()) return;
 
         try {
-        if (user.role === "Doctor") {
-            const response = await httpClient.post("/doctor/log", user);
-            if (response.data.msg === "Success") {
+            setIsSubmitting(true);
+            setFormError("");
+            const endpoint = role === "Doctor" ? "/doctor/log" : "/patient/log";
+            const response = await httpClient.post(endpoint, { email: email.trim(), password, role });
+
+            if (response.data.msg !== "Success") throw new Error("Invalid credentials");
+
             localStorage.setItem("authToken", response.data.token);
-            localStorage.setItem("role", "doctor");
-            localStorage.setItem("doctor", JSON.stringify({ _id: response.data.id }));
-            navigate("/ddash");
-            } else {
-            window.alert("Invalid Doctor credentials ❌");
-            }
-        } else if (user.role === "Patient") {
-            const response = await httpClient.post("/patient/log", user);
-            if (response.data.msg === "Success") {
-            localStorage.setItem("authToken", response.data.token);
-            localStorage.setItem("role", "patient");
-            localStorage.setItem("patient", JSON.stringify({ _id: response.data.id }));
-            navigate("/pdash");
-            } else {
-            window.alert("Invalid Patient credentials ");
-            }
-        } else {
-            window.alert("Please select a valid role ⚠️");
-        }
-        } catch (err) {
-        console.error(err);
-        window.alert("Server error Try again later.");
+            localStorage.setItem("role", role.toLowerCase());
+            localStorage.setItem(role.toLowerCase(), JSON.stringify({ _id: response.data.id }));
+            navigate(role === "Doctor" ? "/ddash" : "/pdash");
+        } catch (error) {
+            console.error("Login failed:", error);
+            const message = error.response?.status === 401
+                ? "Email or password is incorrect."
+                : "Unable to log in right now. Please try again.";
+            setFormError(message);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
     return (
-        <div
-        className="d-flex flex-column min-vh-100 bg-layout-premium"
-        style={{
-            background: "linear-gradient(180deg, #ffffffff, #d6e3f8ff)",
-        }}
-        >
-        <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm"
-            style={{
-            height: "9vh",
-            background: "linear-gradient(90deg, #71a1eaff, #71a9eeff)",
-            color: "#f9f3f3ff",
-            width: "100%",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            zIndex: 1000,
-            }}
-        >
-            <div className="d-flex align-items-center gap-3">
-            <img src={logo} alt="Logo" height="52" style={{ borderRadius: "6px" }} />
-            <h4 className="fw-bold mb-0 " style={{color:"#181313ff"}}>HEALTH NEXUS</h4>
-            </div>
+        <div className="d-flex flex-column min-vh-100 bg-layout-premium">
+            <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm" style={{ height: "9vh" }}>
+                <div className="d-flex align-items-center gap-3"><img src={logo} alt="HealthNexus" height="52" /><h4 className="fw-bold mb-0">HEALTH NEXUS</h4></div>
+                <Link to="/" className="btn btn-light btn-sm fw-semibold px-3">Home</Link>
+            </header>
 
-            <div className="d-flex align-items-center gap-3">
-            <Link
-                to="/"
-                className="btn btn btn-premium btn-sm fw-semibold px-3"
-                style={{
-                borderRadius: "50px",
-                transition: "0.3s",
-                }}
-            >
-                Home
-            </Link>
-            </div>
-        </header>
+            <main className="flex-grow-1 d-flex justify-content-center align-items-center px-3 pt-5 mt-5">
+                <section className="shadow-lg glass-surface p-3 p-md-5 rounded-4 w-100 auth-form-card" aria-labelledby="login-title">
+                    <div className="text-center mb-4"><img src={logo} alt="HealthNexus" height="70" className="mb-3" /><h1 id="login-title" className="h4 fw-bold text-primary">Welcome to HealthNexus</h1><p className="text-muted mb-0">Doctor and patient login</p></div>
+                    {formError && <div className="alert alert-danger" role="alert">{formError}</div>}
 
-        <div
-            className="flex-grow-1 d-flex justify-content-center align-items-center px-3"
-            style={{ marginTop: "20vh"}}
-        >
-            <div
-            className="shadow-lg glass-surface p-3 p-md-5 rounded-4 w-100"
-            style={{
-                background: "linear-gradient(180deg, #cdd8e9ff, #6087d0ff)",
-                maxWidth: "460px",
-            }}
-            >
-            <div className="text-center mb-4">
-                <img src={logo} alt="Logo" height="70" className="mb-3" />
-                <h4 className="fw-bold text-primary">Welcome to HealthNexus</h4>
-                <p className="text-muted mb-0">Doctor & Patient Login</p>
-            </div>
-
-            <form onSubmit={adlog}>
-                <div className="mb-3 position-relative">
-                <label className="form-label fw-semibold">Email</label>
-                <div className="input-group">
-                    <span className="input-group-text bg-light">
-                    <FaUser />
-                    </span>
-                    <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    />
-                </div>
-                </div>
-
-                <div className="mb-3 position-relative">
-                <label className="form-label fw-semibold">Password</label>
-                <div className="input-group">
-                    <span className="input-group-text bg-light">
-                    <FaLock />
-                    </span>
-                    <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    />
-                </div>
-                </div>
-
-                <div className="mb-4 position-relative">
-                <label className="form-label fw-semibold">Role</label>
-                <div className="input-group">
-                    <span className="input-group-text bg-light">
-                    <FaUserMd />
-                    </span>
-                    <select
-                    className="form-select"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    required
-                    >
-                    <option value="">-- Select Role --</option>
-                    <option value="Doctor">Doctor</option>
-                    <option value="Patient">Patient</option>
-                    </select>
-                </div>
-                </div>
-
-                <button
-                type="submit"
-                className="btn btn-premium w-100 fw-semibold py-2 rounded-pill"
-                style={{
-                    background: "linear-gradient(90deg, #1b52c7ff, #4190f1ff)",
-                    border: "none",
-                }}
-                >
-                Login
-                </button>
-
-                <div className="text-center mt-4">
-                <p className="small text-muted mb-1">
-                    Don’t have an account?{" "}
-                    <Link to="/reg" className="text-primary fw-semibold">
-                    Register here
-                    </Link>
-                </p>
-                <Link to="/" className="small text-secondary">
-                    Back to Home
-                </Link>
-                </div>
-            </form>
-            </div>
-        </div>
+                    <form noValidate onSubmit={handleSubmit}>
+                        <div className="mb-3"><label htmlFor="login-email" className="form-label fw-semibold">Email</label><div className="input-group"><span className="input-group-text bg-light"><FaUser aria-hidden="true" /></span><input id="login-email" type="email" className={`form-control ${errors.email ? "is-invalid" : ""}`} value={email} onChange={(event) => updateField("email", event.target.value)} aria-describedby="login-email-error" /></div>{errors.email && <div id="login-email-error" className="invalid-feedback d-block">{errors.email}</div>}</div>
+                        <div className="mb-3"><label htmlFor="login-password" className="form-label fw-semibold">Password</label><div className="input-group"><span className="input-group-text bg-light"><FaLock aria-hidden="true" /></span><input id="login-password" type="password" className={`form-control ${errors.password ? "is-invalid" : ""}`} value={password} onChange={(event) => updateField("password", event.target.value)} aria-describedby="login-password-error" /></div>{errors.password && <div id="login-password-error" className="invalid-feedback d-block">{errors.password}</div>}</div>
+                        <div className="mb-4"><label htmlFor="login-role" className="form-label fw-semibold">Role</label><div className="input-group"><span className="input-group-text bg-light"><FaUserMd aria-hidden="true" /></span><select id="login-role" className={`form-select ${errors.role ? "is-invalid" : ""}`} value={role} onChange={(event) => updateField("role", event.target.value)} aria-describedby="login-role-error"><option value="">Select your role</option><option value="Doctor">Doctor</option><option value="Patient">Patient</option></select></div>{errors.role && <div id="login-role-error" className="invalid-feedback d-block">{errors.role}</div>}</div>
+                        <button type="submit" className="btn btn-premium w-100 fw-semibold py-2 rounded-pill" disabled={isSubmitting}>{isSubmitting && <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />} {isSubmitting ? "Logging in…" : "Login"}</button>
+                    </form>
+                    <div className="text-center mt-4"><p className="small text-muted mb-1">Don&apos;t have an account? <Link to="/reg" className="text-primary fw-semibold">Register here</Link></p><Link to="/" className="small text-secondary">Back to Home</Link></div>
+                </section>
+            </main>
         </div>
     );
 }

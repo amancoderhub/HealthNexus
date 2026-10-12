@@ -1,303 +1,170 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
-import axios from "axios";
-import logo from "../assets/logo.png";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PatientLayout from "./PatientLayout";
+import { createFeedback, deleteFeedback, getFeedbackForUser } from "../services/feedbackService";
 import "../App.css";
 
-const Pfeed = () => {
-    const [type, setType] = useState("");
-    const [msg, setMsg] = useState("");
-    const [feeds, setFeeds] = useState([]);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+function getStoredPatient() {
+    try {
+        return JSON.parse(localStorage.getItem("patient"));
+    } catch {
+        return null;
+    }
+}
+
+function Pfeed() {
     const navigate = useNavigate();
-    const location = useLocation();
+    const [type, setType] = useState("");
+    const [message, setMessage] = useState("");
+    const [feedbackItems, setFeedbackItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [notice, setNotice] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const validation = () => {
-        const data = localStorage.getItem("patient");
-        if (data == null) navigate("/login");
-    };
+    const loadFeedback = useCallback(async () => {
+        const patient = getStoredPatient();
+        if (!patient?._id) return;
 
-    const loadFeedbacks = async () => {
         try {
-        const user = JSON.parse(localStorage.getItem("patient"));
-        if (!user?._id) return;
-        const res = await axios.get(
-            `https://healthnexus-backend-53ei.onrender.com/api/feed/user/patient/${user._id}`
-        );
-        if (res.data.msg === "Success") setFeeds(res.data.value);
-        } catch (err) {
-        console.error(err);
+            setErrorMessage("");
+            const response = await getFeedbackForUser(patient._id);
+            if (response.data.msg === "Success") setFeedbackItems(response.data.value);
+        } catch (error) {
+            console.error("Unable to load patient feedback:", error);
+            setErrorMessage("Your feedback could not be loaded. Please refresh and try again.");
+        } finally {
+            setIsLoading(false);
         }
-    };
+    }, []);
 
-    const addfeed = async (e) => {
-        e.preventDefault();
-        const user = JSON.parse(localStorage.getItem("patient"));
-        const feed = {
-        uid: user._id,
-        utype: "patient",
-        type,
-        msg,
-        status: "u",
-        };
+    useEffect(() => {
+        if (localStorage.getItem("role") !== "patient" || !getStoredPatient()?._id) {
+            navigate("/login");
+            return;
+        }
+
+        loadFeedback();
+    }, [loadFeedback, navigate]);
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const patient = getStoredPatient();
+        if (!patient?._id) return;
+
         try {
-        const response = await axios.post("https://healthnexus-backend-53ei.onrender.com/api/feed", feed);
-        if (response.data.msg === "Success") {
-            alert("Feedback Added Successfully");
+            setIsSubmitting(true);
+            setNotice("");
+            setErrorMessage("");
+            const response = await createFeedback({
+                uid: patient._id,
+                utype: "patient",
+                type,
+                msg: message.trim(),
+                status: "u",
+            });
+
+            if (response.data.msg !== "Success") throw new Error("Feedback was not saved");
+
             setType("");
-            setMsg("");
-            loadFeedbacks();
-        } else {
-            alert("Something went wrong");
+            setMessage("");
+            setNotice("Thank you — your feedback has been added.");
+            await loadFeedback();
+        } catch (error) {
+            console.error("Unable to add feedback:", error);
+            setErrorMessage("Feedback could not be added. Please try again.");
+        } finally {
+            setIsSubmitting(false);
         }
-        } catch (err) {
-        console.error(err);
-        alert("Server error");
-        }
-    };
+    }
 
-    const deleteFeed = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this feedback?")) return;
+    async function handleDelete(feedbackId) {
+        if (!window.confirm("Delete this feedback? This action cannot be undone.")) return;
+
         try {
-        const res = await axios.delete(`https://healthnexus-backend-53ei.onrender.com/api/feed/${id}`);
-        if (res.data.msg === "Success") {
-            alert("Feedback deleted successfully");
-            loadFeedbacks();
-        } else {
-            alert("Failed to delete feedback");
+            setNotice("");
+            const response = await deleteFeedback(feedbackId);
+            if (response.data.msg !== "Success") throw new Error("Feedback was not deleted");
+
+            setNotice("Feedback deleted.");
+            await loadFeedback();
+        } catch (error) {
+            console.error("Unable to delete feedback:", error);
+            setErrorMessage("Feedback could not be deleted. Please try again.");
         }
-        } catch (err) {
-        console.error(err);
-        alert("Server error while deleting feedback");
-        }
-    };
-
-    useEffect(() => {
-        validation();
-        loadFeedbacks();
-    }, []);
-
-    useEffect(() => {
-        if (window.innerWidth < 992) setSidebarOpen(false);
-        else setSidebarOpen(true);
-
-        const handleResize = () => {
-        if (window.innerWidth < 992) setSidebarOpen(false);
-        else setSidebarOpen(true);
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    const links = [
-        { to: "/pdash", text: "Dashboard" },
-        { to: "/papp", text: "Appointment" },
-        { to: "/preqapp", text: "Request Appointment" },
-        { to: "/pfeed", text: "Patient Feedback" },
-        { to: "/pviewfeed", text: "Patient View Feedback" },
-    ];
+    }
 
     return (
-        <div className="vh-100 d-flex flex-column bg-layout-premium" style={{ background: "#e8f0ff" }}>
-        {/* Header */}
-        <header className="header-premium d-flex justify-content-between align-items-center px-4 shadow-sm"
-            style={{
-            height: "9vh",
-            background: "linear-gradient(90deg, #1b52c7ff, #4f9dfc)",
-            color: "#fff",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            zIndex: 3000,
-            }}
-        >
-            <div className="d-flex align-items-center gap-3">
-            <button
-                className="btn text-white border-0 d-lg-none"
-                onClick={() => setSidebarOpen(true)}
-                style={{ zIndex: 3100 }}
-            >
-                <FaBars size={22} />
-            </button>
-            <img src={logo} alt="Logo" height="48" style={{ borderRadius: "6px" }} />
-            <h4 className="fw-bold mb-0 d-none d-md-block">PATIENT DASHBOARD</h4>
-            </div>
+        <PatientLayout>
+            <section className="patient-page" aria-labelledby="feedback-heading">
+                <div className="patient-page__heading">
+                    <p className="patient-page__eyebrow">Your voice matters</p>
+                    <h1 id="feedback-heading">Share feedback</h1>
+                    <p>Tell us what worked well or where we can improve.</p>
+                </div>
 
-            <div className="d-flex align-items-center gap-3" style={{ zIndex: 3100 }}>
-            <Link to="/" className="btn btn-premium btn-sm fw-semibold px-3 d-none d-sm-block">
-                Home
-            </Link>
-            <button
-                onClick={() => {
-                localStorage.removeItem("patient"); localStorage.removeItem("role");
-                localStorage.removeItem("role");
-                navigate("/login");
-                }}
-                className="btn btn-danger btn-sm px-3 fw-semibold"
-            >
-                Logout
-            </button>
-            </div>
-        </header>
-
-        <div
-            className="d-flex flex-grow-1 position-relative"
-            style={{ marginTop: "9vh", overflow: "hidden" }}
-        >
-            <aside
-            className={`position-fixed h-100 shadow-lg sidebar sidebar-premium ${
-                sidebarOpen ? "open" : ""
-            }`}
-            style={{
-                width: "250px",
-                background: "linear-gradient(180deg, #6c8ab7ff, #dde9fcff)",
-                borderRight: "2px solid #6a83adff",
-                top: "9vh",
-                left: 0,
-                zIndex: 2500,
-            }}
-            >
-            <div className="d-flex justify-content-end d-lg-none p-2">
-                <button
-                className="btn btn-sm btn-outline-danger fw-bold"
-                onClick={() => setSidebarOpen(false)}
-                style={{
-                    borderRadius: "50%",
-                    width: "34px",
-                    height: "34px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-                >
-                <FaTimes />
-                </button>
-            </div>
-
-            <div className="p-3 overflow-auto" style={{ height: "calc(91vh - 40px)" }}>
-                <ul className="list-unstyled m-0">
-                {links.map((link) => (
-                    <li key={link.to} className="mb-2">
-                    <Link
-                        to={link.to}
-                        className={`d-block py-2 px-3 rounded-3 fw-semibold text-center shadow-sm ${
-                        location.pathname === link.to
-                            ? "bg-primary-gradient text-white"
-                            : "bg-white text-dark"
-                        }`}
-                        style={{
-                        textDecoration: "none",
-                        border: "1px solid #e0e7ff",
-                        transition: "0.3s ease",
-                        }}
-                        onClick={() => {
-                        if (window.innerWidth < 992) setSidebarOpen(false);
-                        }}
-                    >
-                        {link.text}
-                    </Link>
-                    </li>
-                ))}
-                </ul>
-            </div>
-            </aside>
-
-            <div
-            onClick={() => setSidebarOpen(false)}
-            className={`position-fixed top-0 start-0 w-100 h-100 overlay ${
-                sidebarOpen && window.innerWidth < 992 ? "active" : ""
-            }`}
-            style={{
-                background: "rgba(0,0,0,0.4)",
-                zIndex: 2000,
-            }}
-            ></div>
-
-            <main
-            className="flex-grow-1 bg-white p-4 overflow-auto rounded-top-start-4 shadow-sm"
-            style={{
-                marginLeft: window.innerWidth >= 992 ? "250px" : "0",
-                transition: "margin-left 0.4s ease-in-out",
-                zIndex: 1000,
-            }}
-            >
-            <h4 className="my-4 text-center fw-bold text-dark fs-1">Patient Feedback</h4>
-
-            <div
-                className="col-md-8  mx-auto p-4 rounded-4 shadow-lg"
-                style={{ background: "#a6c3e4ff" }}
-            >
-                <img src={logo} alt="logo" height="50" className="text-center mb-4" />
-                <h5 className="text-center mb-4 fw-bold">Add Feedback</h5>
-                <form onSubmit={addfeed}>
-                <label className="fw-semibold">Select Type</label>
-                <select
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                    className="form-control rounded-pill px-3 mb-3"
-                    required
-                >
-                    <option value="">--Select--</option>
-                    <option value="Feedback">Feedback</option>
-                    <option value="Suggestion">Suggestion</option>
-                    <option value="Complain">Complain</option>
-                </select>
-
-                <label className="fw-semibold">Message</label>
-                <textarea
-                    value={msg}
-                    onChange={(e) => setMsg(e.target.value)}
-                    className="form-control mb-3"
-                    rows="4"
-                    style={{ borderRadius: "15px", padding: "10px" }}
-                    required
-                ></textarea>
-
-                <button
-                    type="submit"
-                    className="btn btn-premium w-100 fw-semibold py-2 rounded-pill"
-                >
-                    Add Feedback
-                </button>
-                </form>
-            </div>
-
-            <div className="col-md-8 mx-auto mt-5">
-                <h5 className="fw-semibold text-center mb-3">Your Feedbacks</h5>
-                {feeds.length > 0 ? (
-                feeds.map((f) => (
-                    <div
-                    key={f._id}
-                    className="border rounded p-3 my-2 d-flex justify-content-between align-items-center shadow-sm"
-                    style={{
-                        background: "#b6c5ecff",
-                        borderLeft: "5px solid #4f9dfc",
-                    }}
-                    >
-                    <div>
-                        <strong>{f.type}</strong>
-                        <p className="mb-0">{f.msg}</p>
+                <div className="patient-form-card">
+                    <div className="patient-form-card__header">
+                        <h2>Add feedback</h2>
+                        <p>Your response helps us improve the experience.</p>
                     </div>
-                    <button
-                        onClick={() => deleteFeed(f._id)}
-                        className="btn btn-sm btn-danger"
-                    >
-                        Delete
-                    </button>
+
+                    {notice && <div className="alert alert-success" role="status">{notice}</div>}
+                    {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="feedback-type" className="form-label fw-semibold">Feedback type</label>
+                            <select id="feedback-type" value={type} onChange={(event) => setType(event.target.value)} className="form-select" required>
+                                <option value="">Select a type</option>
+                                <option value="Feedback">Feedback</option>
+                                <option value="Suggestion">Suggestion</option>
+                                <option value="Complain">Complaint</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-4">
+                            <label htmlFor="feedback-message" className="form-label fw-semibold">Message</label>
+                            <textarea id="feedback-message" value={message} onChange={(event) => setMessage(event.target.value)} className="form-control" rows="5" minLength="10" maxLength="1000" placeholder="Write your feedback here" required />
+                            <div className="form-text text-end">{message.length}/1000</div>
+                        </div>
+
+                        <button type="submit" className="btn btn-premium w-100 py-2 fw-semibold" disabled={isSubmitting}>
+                            {isSubmitting ? "Saving feedback…" : "Submit feedback"}
+                        </button>
+                    </form>
+                </div>
+
+                <section className="patient-feedback-list" aria-labelledby="recent-feedback-heading">
+                    <div className="patient-feedback-list__heading">
+                        <h2 id="recent-feedback-heading">Recent feedback</h2>
+                        <span>{feedbackItems.length} total</span>
                     </div>
-                ))
-                ) : (
-                <p className="text-center text-muted mt-3">No feedback added yet.</p>
-                )}
-            </div>
-            </main>
-        </div>
-        </div>
+
+                    {isLoading ? (
+                        <div className="patient-page__loading" role="status"><div className="spinner-border text-primary" aria-hidden="true" /><span>Loading feedback…</span></div>
+                    ) : feedbackItems.length ? (
+                        <div className="d-grid gap-3">
+                            {feedbackItems.map((item) => (
+                                <article className="patient-feedback-item" key={item._id}>
+                                    <div>
+                                        <span className="patient-feedback-item__type">{item.type}</span>
+                                        <p>{item.msg}</p>
+                                    </div>
+                                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(item._id)}>Delete</button>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="patient-empty-state">
+                            <h3>No feedback yet</h3>
+                            <p>Your submitted feedback will appear here.</p>
+                        </div>
+                    )}
+                </section>
+            </section>
+        </PatientLayout>
     );
-};
+}
 
 export default Pfeed;
